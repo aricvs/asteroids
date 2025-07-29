@@ -2,7 +2,9 @@ import pygame
 import player
 import asteroid
 import asteroidfield
+import sys
 from constants import *
+
 
 def main():
     pygame.init()
@@ -22,7 +24,6 @@ def main():
     new_player = player.Player(x = SCREEN_WIDTH / 2, y = SCREEN_HEIGHT / 2)
     new_asteroidfield = asteroidfield.AsteroidField()
 
-
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -33,6 +34,12 @@ def main():
             element.draw(screen)
 
         updatable.update(dt)
+
+        for element in asteroids:
+            if element.detect_collision(new_player):
+                print("Game over!")
+                sys.exit()
+
         pygame.display.flip()
         dt = clock.tick(60) / 1000
 
